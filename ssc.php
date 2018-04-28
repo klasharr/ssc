@@ -7,7 +7,7 @@
  Author: Klaus Harris
  Version: -1
  Author URI: https://klaus.blog
- Text Domain: ssc-members
+ Text Domain: ssc
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
