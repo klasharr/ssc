@@ -1,5 +1,5 @@
 
-Safety teams
+<!-- safety-teams.php in ssc plugin -->
 
 <?php
 
@@ -24,21 +24,44 @@ if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors
 		return;
 	}
 
+	//echo "<p class='ssc_safety_teams_team_link'>Jump to a team: ";
+
+	foreach ( $data->output_data->get_rows() as $grouped_field_value => $grouped_rows ) {
+		//echo '<a href="#'.$grouped_field_value.'">'.$grouped_field_value.'</a> ';
+	}
+	//echo '</p>';
+    echo '<h3>Weekend Teams</h3>';
+
+	$thursday_heading = false;
+
 	foreach ( $data->output_data->get_rows() as $grouped_field_value => $grouped_rows ) {
 
-		echo "<p><strong>$grouped_field_value</strong></br>";
+		if( is_string($grouped_field_value) && $thursday_heading == false ){
+			echo '<h3 style="clear: both;">Thursday Teams</h3>';
+			$thursday_heading = true;
+		}
+
+		//echo "<a name='" . $grouped_field_value . "'/></a>";
+		echo "<table class='ssc-safety-team-table'>";
+		echo "<thead><tr><th colspan='2'>Team $grouped_field_value</th><th>Role</th></tr></thead>";
 
 		foreach ( $grouped_rows as $row ) {
 
 			if ( $row['error'] == 0 || ( $row['error'] == 1 && $data->config['error_lines'] == 'yes' ) ) {
-				echo "<span  class='" . $row['class'] . "'>";
-				foreach ( $row['data'] as $fieldname => $values ) {
-					echo $values['formatted_value'] . ',';
-				}
-				echo "</span><br/>\n";
+
+				echo "<tr class='". $row['class'] ." '>";
+				echo "<td>" . $row['data']['First Name']['formatted_value'] . "</td>";
+				echo "<td>" . $row['data']['Second name']['formatted_value'] . "</td>";
+				echo "<td>" . $row['data']['type']['formatted_value'] . "</td>";
+				echo "</tr>";
+
 			}
+
 		}
-		echo '</p>';
+
+		echo "</table>";
 	}
 	?>
 </p>
+
+
