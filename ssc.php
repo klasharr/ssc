@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'SSC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+require_once( 'inc/class-ssc-race-with-safety-team-filter.php' );
+require_once( 'inc/class-sail-type.php' );
 
 /**
  * Openclub CSV Dependency Check
@@ -39,7 +41,9 @@ add_shortcode( 'ssc_safety_teams', function( $config ){
 
 	$config = shortcode_atts(
 		OpenClub\CSV_Display::get_config(
-			array( 'context' => 'ssc_safety_teams_shortcode' )
+			array(
+				'context' => 'ssc_safety_teams_shortcode',
+			)
 		),
 		$config
 	);
@@ -135,3 +139,17 @@ function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \Ope
 	}
 	return $data;
 }
+
+add_shortcode( 'ssc_programme', function( $config ){
+
+	$config = shortcode_atts(
+		OpenClub\CSV_Display::get_config(
+			array(
+			'context' => 'ssc_programme',
+			'filter' =>  new \OpenClub\SSC_Race_With_Safety_Team_Filter()
+		)),
+		$config
+	);
+
+	return OpenClub\CSV_Display::get_html( $config, OPENCLUB_PROGRAMME_PLUGIN_DIR );
+} );
