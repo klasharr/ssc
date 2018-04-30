@@ -16,8 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'SSC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-require_once( 'inc/class-ssc-race-with-safety-team-filter.php' );
-require_once( 'inc/class-sail-type.php' );
+require_once( 'inc/class-ssc-safety-team-filter.php' );
 
 /**
  * Openclub CSV Dependency Check
@@ -89,12 +88,7 @@ add_action( 'wp_head', function() {
 } );
 
 
-
-
 /**
- * @todo perhaps there is a better way to alter the data late before passing to the template, perhaps passing
- * in an overridden data output object. But this is nice and simple.
- *
  * @param \OpenClub\Output_Data $data
  * @param \OpenClub\Data_Set_Input $input
  *
@@ -140,16 +134,34 @@ function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \Ope
 	return $data;
 }
 
-add_shortcode( 'ssc_programme', function( $config ){
+/**
+ * [ssc_safety_teams post_id=311 error_lines="yes" error_messages="yes" display="safety_teams" group_by_field="Team"]
+ */
+add_shortcode( 'ssc_safety_teams', function( $config ){
 
 	$config = shortcode_atts(
 		OpenClub\CSV_Display::get_config(
 			array(
-			'context' => 'ssc_programme',
-			'filter' =>  new \OpenClub\SSC_Race_With_Safety_Team_Filter()
-		)),
+				'context' => 'ssc_safety_teams_shortcode',
+			)),
 		$config
 	);
 
-	return OpenClub\CSV_Display::get_html( $config, OPENCLUB_PROGRAMME_PLUGIN_DIR );
+	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
 } );
+
+
+add_shortcode( 'ssc_programme', function( $config ){
+
+	$config = shortcode_atts(
+		OpenClub\CSV_Display::get_config(),
+		$config
+	);
+
+	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
+} );
+
+
+
+
+
