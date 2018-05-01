@@ -17,6 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'SSC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once( 'inc/class-ssc-safety-team-filter.php' );
+require_once( 'inc/data.php' );
+require_once( 'inc/shortcodes.php' );
+require_once( 'inc/head.php' );
 
 /**
  * Openclub CSV Dependency Check
@@ -35,131 +38,15 @@ add_action( 'admin_init', function() {
 	}
 });
 
+if ( class_exists( 'WP_CLI' ) ) {
 
-add_shortcode( 'ssc_safety_teams', function( $config ){
+	require_once( SSC_PLUGIN_DIR . 'cli/class-command.php' );
+	$command = new \SSC\Command;
+	WP_CLI::add_command( 'ssc', $command );
 
-	$config = shortcode_atts(
-		OpenClub\CSV_Display::get_config(
-			array(
-				'context' => 'ssc_safety_teams_shortcode',
-			)
-		),
-		$config
-	);
-	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
-} );
-
-add_filter( 'openclub_csv_display_data', 'ssc_prep_safety_teams_shortcode_data', 10, 2 );
-
-
-add_action( 'wp_head', function() {
-	?>
-	<style>
-
-		table.ssc-safety-team-table th {
-			background-color: #EFEFEF;
-			font-size: 1.1em;
-			padding: 0.5em 0.5em 0.5em 0.5em;
-		}
-
-		table.ssc-safety-team-table {
-			width: 400px;
-			margin: 1em;
-			float: left;
-			margin-bottom: 1.5em;
-		}
-
-		table.ssc-safety-team-table tr.ssc-safety-teams-ro td{
-			font-weight: bold;
-			font-size: 0.9em;
-			padding: 0.2em 0.2em 0.2em 0.5em;
-		}
-
-		table.ssc-safety-team-table td{
-			font-size: 0.9em;
-			padding: 0.2em 0.2em 0.2em 0.5em;
-		}
-
-		p.ssc_safety_teams_team_link {
-			font-size: 1.2em;
-		}
-	</style>
-	<?php
-} );
-
-
-/**
- * @param \OpenClub\Output_Data $data
- * @param \OpenClub\Data_Set_Input $input
- *
- * @return \OpenClub\Output_Data
- */
-function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \OpenClub\Data_Set_Input $input ){
-
-	if( $input->get_context() == 'ssc_safety_teams_shortcode' ) {
-		foreach($data->get_rows() as $team => $safety_team_members ){
-			$array_index = 0;
-			foreach( $safety_team_members as $member ){
-
-				$type = 'Crew';
-
-				if( 'yes' == $data->rows[$team][$array_index]['data']['Beach Master']['value'] ){
-					$type = 'Beach Master';
-				}
-
-				if( 'yes' == $data->rows[$team][$array_index]['data']['Rib Driver']['value'] ){
-					$type = 'Rib driver';
-				}
-
-				if( 'yes' == $data->rows[$team][$array_index]['data']['Deputy RO']['value'] ){
-					$type .= '/ Deputy RO';
-				}
-
-				if( 'yes' == $data->rows[$team][$array_index]['data']['RO']['value'] ){
-					$type = 'Race Officer';
-				}
-
-				$data->rows[$team][$array_index]['data']['type']['value'] = $type;
-				$data->rows[$team][$array_index]['data']['type']['formatted_value'] = $type;
-
-				if($type == 'Race Officer' && $data->rows[$team][$array_index]['error'] == 0 ) {
-					$data->rows[$team][$array_index]['class'] = 'ssc-safety-teams-ro';
-				}
-				$array_index++;
-			}
-		}
-
-		ksort($data->rows, SORT_STRING);
-	}
-	return $data;
 }
 
-/**
- * [ssc_safety_teams post_id=311 error_lines="yes" error_messages="yes" display="safety_teams" group_by_field="Team"]
- */
-add_shortcode( 'ssc_safety_teams', function( $config ){
-
-	$config = shortcode_atts(
-		OpenClub\CSV_Display::get_config(
-			array(
-				'context' => 'ssc_safety_teams_shortcode',
-			)),
-		$config
-	);
-
-	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
-} );
-
-
-add_shortcode( 'ssc_programme', function( $config ){
-
-	$config = shortcode_atts(
-		OpenClub\CSV_Display::get_config(),
-		$config
-	);
-
-	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
-} );
+add_filter( 'openclub_csv_display_data', 'ssc_prep_safety_teams_shortcode_data', 10, 2 );
 
 
 
