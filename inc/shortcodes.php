@@ -38,3 +38,26 @@ add_shortcode( 'ssc_safety_teams', function( $config ){
 
 	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
 } );
+
+/**
+ * Example
+ *
+ * [ssc_empty_house_duties post_id=134 limit=10]
+ */
+add_shortcode( 'ssc_empty_house_duties', function( $config ){
+
+	$config = shortcode_atts(
+		OpenClub\CSV_Display::get_config(
+			array(
+				'display' => 'ssc_empty_house_duties',
+				'filter' => 'SSC_Empty_Duties',
+				'group_by_field' => 'Duty Date',
+				'future_events_only' => 'yes',
+				'error_lines' => 'yes',
+				'error_messages' => "yes",
+			)),
+		$config
+	);
+
+	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
+} );
