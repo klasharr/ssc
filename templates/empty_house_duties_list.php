@@ -1,4 +1,4 @@
-<!-- grouped_date_table.php ssc plugin -->
+<!-- empty_house_duties_list.php ssc plugin -->
 <?php
 if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors()) : ?>
 	<div class='openclub_csv_error'>
@@ -11,13 +11,6 @@ if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors
 		</p>
 </div>
 <?php endif;
-?>
-	<table class='openclub_csv'>
-	<tr>
-		<th>
-			<?php echo implode( '</th><th>', $data->output_data->get_header_fields() ); ?>
-	</tr>
-<?php
 
 /**
  * @todo smarter way to check for the lack of the group_by_field field. This will cause an endless loop
@@ -28,6 +21,9 @@ if( !$data->config[ 'group_by_field' ] ) {
 }
 
 $count = 1;
+
+echo '<p>';
+
 foreach ( $data->output_data->get_rows() as $grouped_field_value => $grouped_rows ) {
 
 	foreach( $grouped_rows as $row ) {
@@ -36,16 +32,12 @@ foreach ( $data->output_data->get_rows() as $grouped_field_value => $grouped_row
 			$row[ 'class' ] = 'openclub_csv_error bold';
 		}
 
-		if ( $row['error'] == 0 || ( $row['error'] == 1 && $data->config['error_lines'] == 'yes' ) ) {
-			echo "<tr  class='" . $row['class'] . "'>";
-			foreach ( $row['data'] as $fieldname => $values ) {
-				echo '<td>' . $values['formatted_value'] . '</td>';
-			}
-			echo "</tr>\n";
-		}
-
+		echo '<span class = ' . $row[ 'class' ] .  '>'.
+		        $row['data']['Duty Date']['formatted_value'] . ',  ' .
+		        $row['data']['Duty Time']['formatted_value']. ',  ' .
+				$row['data']['Duty Type']['formatted_value'] . '</span><br/>';
 	}
 	$count ++;
 }
-?>
-</table>
+
+echo '</p>';

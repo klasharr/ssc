@@ -18,6 +18,7 @@ define( 'SSC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once( 'inc/class-ssc-safety-team-filter.php' );
 require_once( 'inc/class-ssc-empty-duties-filter.php' );
+require_once( 'inc/class-ssc-training-filter.php' );
 require_once( 'inc/data.php' );
 require_once( 'inc/shortcodes.php' );
 require_once( 'inc/head.php' );

@@ -5,13 +5,17 @@
  * @param \OpenClub\Output_Data $data
  * @param \OpenClub\Data_Set_Input $input
  *
+ * @see templates/safety_teams.php
+ *
  * @return \OpenClub\Output_Data
  */
 function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \OpenClub\Data_Set_Input $input ){
 
-	return $data;
-
 	if( $input->get_context() == 'ssc_safety_teams_shortcode' ) {
+
+		$race_officers = array();
+		$tmp = array();
+
 		foreach($data->get_rows() as $team => $safety_team_members ){
 			$array_index = 0;
 			foreach( $safety_team_members as $member ){
@@ -37,14 +41,30 @@ function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \Ope
 				$data->rows[$team][$array_index]['data']['type']['value'] = $type;
 				$data->rows[$team][$array_index]['data']['type']['formatted_value'] = $type;
 
-				if($type == 'Race Officer' && $data->rows[$team][$array_index]['error'] == 0 ) {
+				// Weekend or Thursday team
+				$team_day = is_numeric( $team ) ? 'Weekend' : 'Thursday';
+				$data->rows[$team][$array_index]['data']['team_type']['value'] = $team_day;
+				$data->rows[$team][$array_index]['data']['team_type']['formatted_value'] = $team_day;
+
+
+				if( 'Race Officer' === $type && $data->rows[$team][$array_index]['error'] == 0 ) {
 					$data->rows[$team][$array_index]['class'] = 'ssc-safety-teams-ro';
+					$race_officers[ $team_day ][] = $data->rows[$team][$array_index];
 				}
+
+				$tmp['teams'][$team_day][$team][$array_index]['data'] =  $data->rows[$team][$array_index]['data'];
+				$tmp['teams'][$team_day][$team][$array_index]['error'] =  $data->rows[$team][$array_index]['error'];
+				$tmp['teams'][$team_day][$team][$array_index]['class'] =  $data->rows[$team][$array_index]['class'];
+
 				$array_index++;
 			}
 		}
 
-		ksort($data->rows, SORT_STRING);
+
+
+		$tmp['race_officers'] = $race_officers;
+
+		$data->set_rows( $tmp );
 	}
 	return $data;
 }

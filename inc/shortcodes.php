@@ -5,7 +5,12 @@
  *
  * [ssc_programme post_id=102]
  *
- * [ssc_programme post_id=102 error_lines="yes" error_messages="yes" group_by_field="Date" future_events_only="yes"  display="grouped_date_table" filter="SSC_Safety_Team"]
+ * [ssc_programme post_id=102 group_by_field="Date" future_events_only="yes"  display="grouped_date_table" filter="SSC_Safety_Team"]
+ *
+ *
+ * Training events only
+ *
+ * [ssc_programme post_id="1361" filter="SSC_Training" field="Date,Event,Time"]
  *
  */
 add_shortcode( 'ssc_programme', function( $config ){
