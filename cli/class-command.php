@@ -31,19 +31,18 @@ Class Command {
 				throw new \Exception( 'The second argument must be a non zero integer value.' );
 			}
 
-			$events_post_id = $args[0];
+			$events_post_id  = $args[0];
 			$safety_teams_id = $args[1];
 
 			$events = $this->get_events( $events_post_id );
 
-			foreach($events as $data){
-				WP_CLI::log( serialize($data));
+			foreach ( $events as $data ) {
+				WP_CLI::log( serialize( $data ) );
 			}
 
 			$safety_teams = $this->get_safety_teams( $safety_teams_id );
 
-			print_r($safety_teams->get_rows());
-
+			print_r( $safety_teams->get_rows() );
 
 
 			WP_CLI::success( '====== Success! !! ====== ' );
@@ -61,8 +60,8 @@ Class Command {
 	 */
 	private function get_events( $events_post_id ) {
 
-		if( empty( $events_post_id ) || !is_numeric( $events_post_id ) ) {
-			throw new \Exception('$events_post_id '. $events_post_id . ' must be an integer' );
+		if ( empty( $events_post_id ) || ! is_numeric( $events_post_id ) ) {
+			throw new \Exception( '$events_post_id ' . $events_post_id . ' must be an integer' );
 		}
 
 		/**
@@ -71,24 +70,25 @@ Class Command {
 		$input = \OpenClub\Factory::get_data_input_object(
 			array(
 				'post_id' => $events_post_id,
-				'filter' => 'SSC_Safety_Team',
-				'fields' => 'Date,Time,Event,Team',
+				'filter'  => 'SSC_Safety_Team',
+				'fields'  => 'Date,Time,Event,Team',
 			)
 		);
 
-		$events =  \OpenClub\Factory::get_output_data( $input );
+		$events = \OpenClub\Factory::get_output_data( $input );
 
-		if(!$events->exists()) {
+		if ( ! $events->exists() ) {
 			throw new \Exception( 'No data for $input' );
 		}
-		
+
 		$out = array();
-		foreach( $events->get_rows() as $row ){
+		foreach ( $events->get_rows() as $row ) {
 			foreach ( $row['data'] as $fieldname => $values ) {
-				$tmp[$fieldname] = $values['formatted_value'] ;
+				$tmp[ $fieldname ] = $values['formatted_value'];
 			}
 			$out[] = $tmp;
 		}
+
 		return $out;
 	}
 
@@ -100,8 +100,8 @@ Class Command {
 	 */
 	private function get_safety_teams( $safety_teams_post_id ) {
 
-		if( empty( $safety_teams_post_id ) || !is_numeric( $safety_teams_post_id ) ) {
-			throw new \Exception('$safety_teams_post_id '. $safety_teams_post_id . ' must be an integer' );
+		if ( empty( $safety_teams_post_id ) || ! is_numeric( $safety_teams_post_id ) ) {
+			throw new \Exception( '$safety_teams_post_id ' . $safety_teams_post_id . ' must be an integer' );
 		}
 
 		/**
@@ -109,15 +109,15 @@ Class Command {
 		 */
 		$input = \OpenClub\Factory::get_data_input_object(
 			array(
-				'post_id' => $safety_teams_post_id,
-				'context' => 'ssc_safety_teams_shortcode',
+				'post_id'        => $safety_teams_post_id,
+				'context'        => 'ssc_safety_teams_shortcode',
 				'group_by_field' => 'Team',
 			)
 		);
 
-		$safety_teams =  \OpenClub\Factory::get_output_data( $input );
+		$safety_teams = \OpenClub\Factory::get_output_data( $input );
 
-		if(!$safety_teams->exists()) {
+		if ( ! $safety_teams->exists() ) {
 			throw new \Exception( 'No data for $input' );
 		}
 

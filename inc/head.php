@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'wp_head', function() {
+add_action( 'wp_head', function () {
 	?>
 	<style>
 
@@ -17,13 +17,13 @@ add_action( 'wp_head', function() {
 			margin-bottom: 1.5em;
 		}
 
-		table.ssc-safety-team-table tr.ssc-safety-teams-ro td{
+		table.ssc-safety-team-table tr.ssc-safety-teams-ro td {
 			font-weight: bold;
 			font-size: 0.9em;
 			padding: 0.2em 0.2em 0.2em 0.5em;
 		}
 
-		table.ssc-safety-team-table td{
+		table.ssc-safety-team-table td {
 			font-size: 0.9em;
 			padding: 0.2em 0.2em 0.2em 0.5em;
 		}

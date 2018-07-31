@@ -1,6 +1,6 @@
 <?php
 
-if( !class_exists( 'Openclub_CSV_Dependency' ) ) {
+if ( ! class_exists( 'Openclub_CSV_Dependency' ) ) {
 
 	class Openclub_CSV_Dependency {
 
@@ -11,6 +11,7 @@ if( !class_exists( 'Openclub_CSV_Dependency' ) ) {
 
 			if ( empty( trim( $plugin_file ) ) ) {
 				error_log( 'Openclub_CSV_Dependency::check() must be passed a string.' );
+
 				return;
 			}
 
@@ -21,6 +22,7 @@ if( !class_exists( 'Openclub_CSV_Dependency' ) ) {
 			if ( ! file_exists( OPENCLUB_CSV_PLUGIN_DIR . 'inc/class-factory.php' ) ) {
 				self::log_error();
 				self::deactivate_within_wp_admin( $plugin_file );
+
 				return;
 			}
 
@@ -29,6 +31,7 @@ if( !class_exists( 'Openclub_CSV_Dependency' ) ) {
 			if ( ! defined( 'OPENCLUB_DEFAULT_FILTER_PRIORITY' ) ) {
 				self::log_error();
 				self::deactivate_within_wp_admin( $plugin_file );
+
 				return;
 			}
 

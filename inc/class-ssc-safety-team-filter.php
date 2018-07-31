@@ -16,7 +16,7 @@ class SSC_Safety_Team implements Filter {
 	 */
 	public function is_filtered_out( DTO $dto ) {
 
-		if( empty( $dto->get_value('Team') ) ) {
+		if ( empty( $dto->get_value( 'Team' ) ) ) {
 			return true;
 		}
 	}

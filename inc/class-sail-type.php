@@ -1,8 +1,8 @@
 <?php
 
 
-class SSC_Sail_Type{
-	
+class SSC_Sail_Type {
+
 	const
 		ADULT_TRAINING = 13,
 		CRUISE = 4,
@@ -102,7 +102,7 @@ class SSC_Sail_Type{
 		}
 
 		if ( preg_match( "/BRITISH SUMMER TIME/i", $event ) ||
-			 preg_match( "/CLOCKS/i", $event )
+		     preg_match( "/CLOCKS/i", $event )
 		) {
 			return self::DAYLIGHTSAVING;
 		}
@@ -114,7 +114,7 @@ class SSC_Sail_Type{
 			return self::ADULT_TRAINING;
 		}
 
-		if ( preg_match( "/Winter Fun/i", $event )  ) {
+		if ( preg_match( "/Winter Fun/i", $event ) ) {
 			return self::FUN_SERIES;
 		}
 
