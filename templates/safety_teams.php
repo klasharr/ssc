@@ -1,14 +1,13 @@
-
 <!-- safety-teams.php in ssc plugin -->
 
 <?php
 
-if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors()) : ?>
+if ( $data->config['error_messages'] == 'yes' && $data->output_data->get_errors() ) : ?>
 	<div class='openclub_csv_error'>
-		<h3><?php echo __( 'Errors', 'openclub_csv' );?></h3>
+		<h3><?php echo __( 'Errors', 'openclub_csv' ); ?></h3>
 		<p class='openclub_csv'>
-			<?php foreach($data->output_data->get_errors() as $line_number => $error ) { ?>
-				Line: <?php echo  ( $line_number + 1 ). ' ' . $error ?>
+			<?php foreach ( $data->output_data->get_errors() as $line_number => $error ) { ?>
+				Line: <?php echo ( $line_number + 1 ) . ' ' . $error ?>
 				<br/>
 			<?php } ?>
 		</p>
@@ -19,8 +18,9 @@ if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors
 	/**
 	 * @todo smarter way to check for the lack of the group_by_field field. This will cause an endless loop
 	 */
-	if( !$data->config[ 'group_by_field' ] ) {
+	if ( ! $data->config['group_by_field'] ) {
 		echo __( 'No group by field', 'openclub_csv' );
+
 		return;
 	}
 
@@ -43,7 +43,7 @@ if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors
 		 * $grouped_rows = members of the team
 		 *
 		 */
-		foreach( $grouped_field_group as $grouped_field_value => $grouped_rows ) {
+		foreach ( $grouped_field_group as $grouped_field_value => $grouped_rows ) {
 
 			echo "<table class='ssc-safety-team-table'>";
 			echo "<thead><tr><th colspan='2'>Team $grouped_field_value</th><th>Role</th></tr></thead>";
@@ -63,16 +63,16 @@ if( $data->config[ 'error_messages' ] == 'yes' && $data->output_data->get_errors
 		}
 
 		echo "<div style='clear: both;'>";
-		echo '<h3>'.$team_day.' Race Officers</h3><p>';
+		echo '<h3>' . $team_day . ' Race Officers</h3><p>';
 
-		foreach( $race_officers[$team_day] as $ro ) {
+		foreach ( $race_officers[ $team_day ] as $ro ) {
 
-			esc_html_e( $ro['data']['Team']['formatted_value'] . '. '. $ro['data']['First Name']['formatted_value'] . '  ' . $ro['data']['Second name']['formatted_value'] . ', ' );
+			esc_html_e( $ro['data']['Team']['formatted_value'] . '. ' . $ro['data']['First Name']['formatted_value'] . '  ' . $ro['data']['Second name']['formatted_value'] . ', ' );
 
-			if(is_user_logged_in() ) {
+			if ( is_user_logged_in() ) {
 
-				echo '<a href="mailto:'. $ro['data']['Email Address']['formatted_value'] .'">';
-				echo $ro['data']['Email Address']['formatted_value'] .'</a>';
+				echo '<a href="mailto:' . $ro['data']['Email Address']['formatted_value'] . '">';
+				echo $ro['data']['Email Address']['formatted_value'] . '</a>';
 
 			} else {
 				echo '<span style="color: gray">log in to see contact details</span>';

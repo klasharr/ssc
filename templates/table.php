@@ -1,4 +1,4 @@
-<!-- openclub-csv -->
+<!-- table.php ssc plugin -->
 <?php
 
 if ( $data->config['error_messages'] == 'yes' && $data->output_data->get_errors() ) : ?>
