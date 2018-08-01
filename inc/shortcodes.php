@@ -31,7 +31,7 @@ add_shortcode( 'ssc_programme', function ( $config ) {
 
 	$config = openclub_csv_get_future_events_only_query_value( $config );
 
-	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
+	return OpenClub\CSV_Display::get_html( $config, OPENCLUB_CSV_PLUGIN_DIR );
 } );
 
 
