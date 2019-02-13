@@ -34,7 +34,6 @@ echo \OpenClub\CSV_Display::template_output( $data, 'error_header' );?>
 				}
 				echo "</tr>\n";
 			}
-
 		}
 		$count ++;
 	}

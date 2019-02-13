@@ -43,6 +43,8 @@ add_shortcode( 'ssc_programme', function ( $config ) {
  *
  * Grouping by team using the safety team template
  * [ssc_safety_teams post_id=311 error_lines="yes" error_messages="yes" display="safety_teams" group_by_field="Team"]
+ *
+ * @see ssc_prep_safety_teams_shortcode_data()
  */
 add_shortcode( 'ssc_safety_teams', function ( $config ) {
 

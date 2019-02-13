@@ -6,35 +6,37 @@
  * @param \OpenClub\Data_Set_Input $input
  *
  * @see templates/safety_teams.php
+ * @see openclub_csv_display_data()
  *
  * @return \OpenClub\Output_Data
  */
 function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \OpenClub\Data_Set_Input $input ) {
 
-	if ( $input->get_context() == 'ssc_safety_teams_shortcode' ) {
+	if ( 'ssc_safety_teams_shortcode' === $input->get_context() ) {
 
 		$race_officers = array();
 		$tmp           = array();
 
 		foreach ( $data->get_rows() as $team => $safety_team_members ) {
+			
 			$array_index = 0;
 			foreach ( $safety_team_members as $member ) {
 
 				$type = 'Crew';
 
-				if ( 'yes' == $data->rows[ $team ][ $array_index ]['data']['Beach Master']['value'] ) {
+				if ( 'yes' === $data->rows[ $team ][ $array_index ]['data']['Beach Master']['value'] ) {
 					$type = 'Beach Master';
 				}
 
-				if ( 'yes' == $data->rows[ $team ][ $array_index ]['data']['Rib Driver']['value'] ) {
+				if ( 'yes' === $data->rows[ $team ][ $array_index ]['data']['Rib Driver']['value'] ) {
 					$type = 'Rib driver';
 				}
 
-				if ( 'yes' == $data->rows[ $team ][ $array_index ]['data']['Deputy RO']['value'] ) {
+				if ( 'yes' === $data->rows[ $team ][ $array_index ]['data']['Deputy RO']['value'] ) {
 					$type .= '/ Deputy RO';
 				}
 
-				if ( 'yes' == $data->rows[ $team ][ $array_index ]['data']['RO']['value'] ) {
+				if ( 'yes' === $data->rows[ $team ][ $array_index ]['data']['RO']['value'] ) {
 					$type = 'Race Officer';
 				}
 
@@ -47,7 +49,7 @@ function ssc_prep_safety_teams_shortcode_data( \OpenClub\Output_Data $data, \Ope
 				$data->rows[ $team ][ $array_index ]['data']['team_type']['formatted_value'] = $team_day;
 
 
-				if ( 'Race Officer' === $type && $data->rows[ $team ][ $array_index ]['error'] == 0 ) {
+				if ( 'Race Officer' === $type && 0 == $data->rows[ $team ][ $array_index ]['error'] ) {
 					$data->rows[ $team ][ $array_index ]['class'] = 'ssc-safety-teams-ro';
 					$race_officers[ $team_day ][]                 = $data->rows[ $team ][ $array_index ];
 				}

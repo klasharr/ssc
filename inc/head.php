@@ -4,17 +4,17 @@ add_action( 'wp_head', function () {
 	?>
 	<style>
 
-		table.ssc-safety-team-table th {
-			background-color: #EFEFEF;
-			font-size: 1.1em;
-			padding: 0.5em 0.5em 0.5em 0.5em;
-		}
-
 		table.ssc-safety-team-table {
 			width: 400px;
 			margin: 1em;
 			float: left;
 			margin-bottom: 1.5em;
+		}
+
+		table.ssc-safety-team-table th {
+			background-color: #EFEFEF;
+			font-size: 1.1em;
+			padding: 0.5em 0.5em 0.5em 0.5em;
 		}
 
 		table.ssc-safety-team-table tr.ssc-safety-teams-ro td {

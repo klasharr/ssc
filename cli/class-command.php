@@ -16,6 +16,11 @@ Class Command {
 	/**
 	 * @todo named vars
 	 *
+	 * @param $args array(
+	 *                  0 => openclub_csv id for events,
+	 *                  1 => openclub_csv id for safety teams,
+	 *              )
+	 *
 	 * @throws \Exception
 	 * @throws \OpenClub\Exception
 	 */
@@ -34,7 +39,7 @@ Class Command {
 			$events_post_id  = $args[0];
 			$safety_teams_id = $args[1];
 
-			$events = $this->get_events( $events_post_id );
+			$events = $this->get_events_with_safety_teams( $events_post_id );
 
 			foreach ( $events as $data ) {
 				WP_CLI::log( serialize( $data ) );
@@ -43,7 +48,6 @@ Class Command {
 			$safety_teams = $this->get_safety_teams( $safety_teams_id );
 
 			print_r( $safety_teams->get_rows() );
-
 
 			WP_CLI::success( '====== Success! !! ====== ' );
 
@@ -56,9 +60,11 @@ Class Command {
 	/**
 	 * @todo make $input write itself neatly
 	 *
+	 * @param $events_post_id int openclub_csv id
+	 *
 	 * @return \OpenClub\Output_Data
 	 */
-	private function get_events( $events_post_id ) {
+	private function get_events_with_safety_teams( $events_post_id ) {
 
 		if ( empty( $events_post_id ) || ! is_numeric( $events_post_id ) ) {
 			throw new \Exception( '$events_post_id ' . $events_post_id . ' must be an integer' );
@@ -95,6 +101,8 @@ Class Command {
 
 	/**
 	 * @todo make $input write itself neatly
+	 *
+	 * @param $safety_teams_post_id int openclub_csv id
 	 *
 	 * @return \OpenClub\Output_Data
 	 */

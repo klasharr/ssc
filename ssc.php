@@ -5,9 +5,11 @@
  Plugin URI: 
  Description: Collection of functionality for Swanage Sailing Club. Depends on the openclub-csv plugin being active.
  Author: Klaus Harris
- Version: -1
+ Version: 1
  Author URI: https://klaus.blog
  Text Domain: ssc
+
+ Tested up to WordPress 5.1 and Jetpack 7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,6 +24,7 @@ if(! Openclub_CSV_Dependency::check( __FILE__ ) ){
 // =================================================================
 
 define( 'SSC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
 require_once( 'inc/class-ssc-safety-team-filter.php' );
 require_once( 'inc/class-ssc-empty-duties-filter.php' );
 require_once( 'inc/class-ssc-training-filter.php' );
