@@ -14,12 +14,11 @@ use \WP_CLI;
 Class Command {
 
 	/**
-	 * Get a list of empty house duties for upload into Dutyman.
+	 * Get a list of empty house duties for upload into Dutyman from a sailing programme file.
 	 *
-	 * wp ssc dutyman_format_empty_house_duties 1361 > duties.csv
+	 * ## EXAMPLES
 	 *
-	 * @param $args
-	 *      $args[0] must be int for a sailing programme csv post.
+	 *     wp ssc dutyman_format_empty_house_duties <sailing_programe_id>
 	 *
 	 * @throws \Exception
 	 */
@@ -72,17 +71,18 @@ Class Command {
 		foreach( $duties as $single_duty_array ){
 			WP_CLI::log(  get_single_duty_as_csv_row_string( $single_duty_array ) );
 		}
-
 	}
 
 	/**
-	 * Example usage
+	 * Get a list of safety teams
 	 *
-	 * wp ssc safety_teams 1365
-	 * wp ssc safety_teams 1365 'array'
-	 * wp ssc safety_teams 1365 'list'
-	 * @
-	 * param $args array( safety_teams post id, display control var
+	 * ## EXAMPLES
+	 *
+	 *      wp ssc safety_teams <safety_teams_list_id>
+	 *      wp ssc safety_teams <safety_teams_list_id> <display_control_var>
+	 *      wp ssc safety_teams <safety_teams_list_id> <display_control_var>
+	 *
+	 * ## SYNOPSIS
 	 *
 	 * @return array|void
 	 * @throws \Exception
@@ -166,17 +166,16 @@ Class Command {
 
 
 	/**
-	 * Example usage
+	 * Get a list of safety duties, populated with assignees.
 	 *
-	 * wp ssc safety_duties 1361 1365
+	 * ## EXAMPLES
 	 *
-	 * @param $args array(
-	 *                  0 => openclub_csv id for events,
-	 *                  1 => openclub_csv id for safety teams,
-	 *              )
+	 *      wp ssc safety_duties <sailing_programme_id> <safety_teams_list_id>
 	 *
+	 * ## SYNOPSIS
+	 *
+	 * @return array|void
 	 * @throws \Exception
-	 * @throws \OpenClub\Exception
 	 */
 	public function safety_duties( $args ) {
 
@@ -210,8 +209,6 @@ Class Command {
 					get_safety_duties_for_single_event( $event['data'], $teams[ $team_id ] )
 				);
 			}
-
-
 
 			$duties = array();
 
@@ -267,8 +264,6 @@ Class Command {
 
 		return $events;
 	}
-
-
 
 }
 
