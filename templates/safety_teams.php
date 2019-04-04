@@ -51,26 +51,36 @@ echo \OpenClub\CSV_Display::template_output( $data, 'error_header' );  ?>
 			echo "</table>";
 		}
 
-		echo "<div style='clear: both;'>";
-		echo '<h3>' . $team_day . ' Race Officers</h3><p>';
+		if ( is_user_logged_in() ) {
 
-		foreach ( $race_officers[ $team_day ] as $ro ) {
+			echo "<div style='clear: both;'>";
+			echo '<h3>' . $team_day . ' Race Officers</h3><p>';
 
-			esc_html_e( $ro['data']['Team']['formatted_value'] . '. ' . $ro['data']['First Name']['formatted_value'] . '  ' . $ro['data']['Second name']['formatted_value'] . ', ' );
+			foreach ( $race_officers[ $team_day ] as $ro ) {
 
-			if ( is_user_logged_in() ) {
+				esc_html_e( $ro['data']['Team']['formatted_value'] . '. ' . $ro['data']['First Name']['formatted_value'] . '  ' . $ro['data']['Second name']['formatted_value'] . ', ' );
 
-				echo '<a href="mailto:' . $ro['data']['Email Address']['formatted_value'] . '">';
-				echo $ro['data']['Email Address']['formatted_value'] . '</a>';
+				if ( is_user_logged_in() ) {
 
-			} else {
-				echo '<span style="color: gray">log in to see contact details</span>';
+					echo '<a href="mailto:' . $ro['data']['Email Address']['formatted_value'] . '">';
+					echo $ro['data']['Email Address']['formatted_value'] . '</a>';
+
+				} else {
+					echo '<span style="color: gray">log in to see contact details</span>';
+				}
+				echo '<br/>';
 			}
-			echo '<br/>';
-		}
-		echo '</p>';
+			echo '</p>';
 
-		echo '</div>';
+			echo '</div>';
+
+		} else {
+
+			echo "<div style='clear: both;'>";
+			echo '<p style="logged-out-text-warning">Log in to see Race Officers\' contact details</p>';
+
+			
+		}
 	}
 	?>
 </p>

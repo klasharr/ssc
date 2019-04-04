@@ -19,45 +19,9 @@
  * Sailing programme, future events only showing hide/show links to show all or future events only.
  * [ssc_programme post_id=102 group_by_field="Date" display="grouped_date_table" future_events_only="yes" show_future_past_toggle=1]
  *
- *
+ * [openclub_display_csv post_id=1365 error_lines="yes" error_messages="yes"  display="safety_teams" plugin_template_dir="SSC_PLUGIN_DIR" context="ssc_safety_teams_shortcode" group_by_field="Team"]
  *
  */
-add_shortcode( 'ssc_programme', function ( $config ) {
-
-	$config = shortcode_atts(
-		OpenClub\CSV_Display::get_config(),
-		$config
-	);
-
-	$config = openclub_csv_get_future_events_only_query_value( $config );
-
-	return OpenClub\CSV_Display::get_html( $config, OPENCLUB_CSV_PLUGIN_DIR );
-} );
-
-
-/**
- * Examples
- *
- * Vanilla
- * [ssc_safety_teams post_id=311]
- *
- * Grouping by team using the safety team template
- * [ssc_safety_teams post_id=311 error_lines="yes" error_messages="yes" display="safety_teams" group_by_field="Team"]
- *
- * @see ssc_prep_safety_teams_shortcode_data()
- */
-add_shortcode( 'ssc_safety_teams', function ( $config ) {
-
-	$config = shortcode_atts(
-		OpenClub\CSV_Display::get_config(
-			array(
-				'context' => 'ssc_safety_teams_shortcode',
-			) ),
-		$config
-	);
-
-	return OpenClub\CSV_Display::get_html( $config, SSC_PLUGIN_DIR );
-} );
 
 /**
  * Example
