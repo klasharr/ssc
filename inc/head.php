@@ -31,6 +31,12 @@ add_action( 'wp_head', function () {
 		p.ssc_safety_teams_team_link {
 			font-size: 1.2em;
 		}
+
+
+		.results-list ol {
+			padding-left: 0;
+			margin-left: 0;
+		}
 	</style>
 	<?php
 } );

@@ -29,8 +29,8 @@ require_once( 'inc/class-ssc-safety-team-filter.php' );
 require_once( 'inc/class-ssc-empty-duties-filter.php' );
 require_once( 'inc/class-ssc-training-filter.php' );
 require_once( 'inc/class-ssc-house-duty-filter.php' );
+require_once( 'inc/class-ssc-results.php' );
 require_once( 'inc/data.php' );
-require_once( 'inc/shortcodes.php' );
 require_once( 'inc/head.php' );
 require_once( 'inc/dutyman-duties-utility.php' );
 
@@ -43,3 +43,5 @@ if ( class_exists( 'WP_CLI' ) ) {
 }
 
 add_filter( 'openclub_csv_display_data', 'ssc_prep_safety_teams_shortcode_data', 10, 2 );
+
+add_shortcode( 'ssc_results', array( new SSC_Results, 'display_short_code' ) );
