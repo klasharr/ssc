@@ -11,7 +11,7 @@ use \OpenClub\CSV_Util;
 use \WP_CLI;
 
 
-Class Command {
+Class Command extends \OpenClub\CLI_Base {
 
 	/**
 	 * Get a list of empty house duties for upload into Dutyman from a sailing programme file.
@@ -30,23 +30,17 @@ Class Command {
 			throw new \Exception( 'The first argument must be a non zero integer value.' );
 		}
 
-		$input = \OpenClub\Factory::get_data_input_object(
+		/**
+		 * @var $events \OpenClub\Output_Data
+		 */
+		$events = $this->get_data(
 			array(
 				'post_id' => $args[0],
 				'filter'  => 'SSC_House_Duty',
 				'fields'  => 'Date,Time,Event,Team,Day',
-				'display' => 'default', // @todo, if a value is missing, this throws an error.
+				'display' => 'default', // @todo, if a value is missing, this throws an error. Don't know why.
 			)
 		);
-
-		/**
-		 * @var $events \OpenClub\Output_Data
-		 */
-		$events = \OpenClub\Factory::get_output_data( $input );
-
-		if ( ! $events->exists() ) {
-			throw new \Exception( 'No data for $input' );
-		}
 
 		// 2. Get house duties list from the sailing events
 
@@ -76,11 +70,15 @@ Class Command {
 	/**
 	 * Get a list of safety teams
 	 *
+	 * wp ssc safety_teams <safety_teams_list_id> <display_control_var>
+	 *
+	 * <display_control_var> default is array
+	 *
 	 * ## EXAMPLES
 	 *
-	 *      wp ssc safety_teams <safety_teams_list_id>
-	 *      wp ssc safety_teams <safety_teams_list_id> <display_control_var>
-	 *      wp ssc safety_teams <safety_teams_list_id> <display_control_var>
+	 *      wp ssc safety_teams 1365
+	 *      wp ssc safety_teams 1365 list
+	 *      wp ssc safety_teams 1365 array
 	 *
 	 * ## SYNOPSIS
 	 *
@@ -121,22 +119,17 @@ Class Command {
 		}
 
 		/**
-		 * @var $input \OpenClub\Data_Set_Input
+		 * @var $safety_teams \OpenClub\Output_Data
 		 */
-		$input = \OpenClub\Factory::get_data_input_object(
+		$safety_teams = $this->get_data(
 			array(
 				'post_id'        => $safety_teams_id,
 				'context'        => 'ssc_safety_teams_shortcode',
 				'group_by_field' => 'Team',
 				'display'        => 'default',
-			)
+			)	
 		);
 
-		$safety_teams = \OpenClub\Factory::get_output_data( $input );
-
-		if ( ! $safety_teams->exists() ) {
-			throw new \Exception( 'No data for $input' );
-		}
 
 		$out = array();
 		foreach( $safety_teams->get_rows() as $team => $members ) {
@@ -243,7 +236,7 @@ Class Command {
 			throw new \Exception( '$events_post_id must be a non zero integer value.' );
 		}
 
-		$input = \OpenClub\Factory::get_data_input_object(
+		return $this->get_data(
 			array(
 				'post_id' => $events_post_id,
 				'filter'  => 'SSC_Safety_Team',
@@ -253,16 +246,6 @@ Class Command {
 			)
 		);
 
-		/**
-		 * @var $events \OpenClub\Output_Data
-		 */
-		$events = \OpenClub\Factory::get_output_data( $input );
-
-		if ( ! $events->exists() ) {
-			throw new \Exception( 'No data for $input' );
-		}
-
-		return $events;
 	}
 
 }
