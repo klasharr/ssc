@@ -177,6 +177,32 @@ function get_safety_duties_for_single_event( array $event, array $team ) {
 	return $out;
 }
 
+
+function get_empty_safety_duties_for_team( array $event, array $team ) {
+
+	$duty_instructions = "Please only swap like for like duties. If you have any questions please contact your Team Leader.";
+
+	$basic_event = array(
+		'Event'             => $event['Event']['formatted_value'],
+		'Duty Date'         => $event['Date']['formatted_value'],
+		'Duty Time'         => get_safety_duty_start_time( $event['Time']['formatted_value'] ),
+		'Duty Instructions' => $duty_instructions,
+	);
+
+	$out = array();
+
+	$single_member_duty = array(
+		'First Name'        => '',
+		'Last Name'         => '',
+		'Duty Notify'       => get_race_officer_email_from_team_members_list($team).'; safety-teams@swanagesailingclub.org.uk',
+		'Duty Type'         => 'Crew',
+	);
+
+	$out[] = array_merge( $basic_event, $single_member_duty );
+
+	return $out;
+}
+
 /*
  * @return string
  *      example: Graham Bobbit, gkbobbit@icloud.com, 7, Race Officer

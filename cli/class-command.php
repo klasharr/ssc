@@ -248,6 +248,78 @@ Class Command extends \OpenClub\CLI_Base {
 
 	}
 
+
+	/**
+	 * Get empty duties for a safety team.
+	 *
+	 * Usage
+	 *
+	 * wp ssc dutyman_format_empty_safety_duties_for_team <sailing_programme_id> <safety_teams_id> <safety_team>
+	 *
+	 * Example
+	 *
+	 * wp ssc dutyman_format_empty_safety_duties_for_team 1361 1365 C
+	 *
+	 * @param $args
+	 */
+	public function dutyman_format_empty_safety_duties_for_team( $args ) {
+
+		try {
+
+			if ( empty( $args[0] ) || (int) $args[0] === 0 ) {
+				throw new \Exception( 'The first argument must be a non zero integer value.' );
+			}
+
+			if ( empty( $args[1] ) || (int) $args[1] === 1 ) {
+				throw new \Exception( 'The second argument must be a non zero integer value.' );
+			}
+
+			$events_post_id  = $args[0];
+			$safety_teams_id = $args[1];
+			$safety_team_name = $args[2]; // e.g. 1,2,3,A,B,C
+
+			$events = $this->get_events_with_safety_teams_only( $events_post_id );
+			$teams = $this->get_safety_teams_data( $safety_teams_id );
+
+			$raw_safety_duties = array();
+
+			foreach( $events->get_rows() as $event ) {
+
+				$team_id = $event['data']['Team']['value'];
+				if( empty( $team_id ) ) {
+					throw new \Exception( 'Event has no team value, ', print_r( $event, 1 ) );
+				}
+
+				if( $team_id != $safety_team_name ) continue;
+
+				$raw_safety_duties = array_merge(
+					$raw_safety_duties,
+					get_empty_safety_duties_for_team( $event['data'], $teams[ $team_id ] )
+				);
+			}
+
+			$duties = array();
+
+			foreach( $raw_safety_duties as $single_duty ) {
+				$duties[] = get_safety_duty_dutyman_format_csv_row_data_for_single_duty( $single_duty );
+			}
+
+			// 4.  Write CSV duties
+
+			WP_CLI::log( get_duties_csv_header_row_as_string() );
+
+			foreach( $duties as $single_duty_array ){
+				WP_CLI::log(  get_single_duty_as_csv_row_string( $single_duty_array ) );
+			}
+
+			WP_CLI::success( '====== Success! !! ====== ' );
+
+		} catch ( \Exception $e ) {
+			\WP_CLI::error( $e->getMessage() );
+		}
+
+	}
+
 }
 
 
