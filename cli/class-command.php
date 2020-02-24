@@ -15,6 +15,8 @@ Class Command extends \OpenClub\CLI_Base {
 
 	/**
 	 * Get a list of empty house duties for upload into Dutyman from a sailing programme file.
+     *
+     * https://github.com/klasharr/ssc/wiki/Create-empty-house-duties-for-upload-to-dutyman
 	 *
 	 * ## EXAMPLES
 	 *
