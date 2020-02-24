@@ -30,10 +30,12 @@ Class Command extends \OpenClub\CLI_Base {
 			throw new \Exception( 'The first argument must be a non zero integer value.' );
 		}
 
+        
+        
 		/**
 		 * @var $events \OpenClub\Output_Data
 		 */
-		$events = $this->get_data(
+		$events = CSV_Util::get_output_data_from_config(
 			array(
 				'post_id' => $args[0],
 				'filter'  => 'SSC_House_Duty',
